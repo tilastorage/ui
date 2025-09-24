@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: white;
+            z-index: -2;
+            transform: translateZ(0);
+        }
+
+        .base {
+            background-color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            transform: translateZ(0);
+            padding-bottom: 60px;
+            box-sizing: border-box;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        #base-home {
+            z-index: 0;
+            opacity: 1;
+        }
+
+        .navbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100vw;
+            height: 60px;
+            background-color: #f1f1f1;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #ccc;
+            z-index: 1;
+        }
+
+        /* Media query for desktop screens (e.g., 768px and above) */
+        @media (min-width: 768px) {
+            .navbar {
+                top: 0;
+                bottom: auto;
+                border-top: none;
+                border-bottom: 1px solid #ccc;
+            }
+
+            .base {
+                top: 60px;
+                height: calc(100vh - 60px);
+                padding-bottom: 0;
+            }
+        }
+
+        .navbar button {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .view {
+            padding: 2rem;
+            position: fixed;
+            background-color: red;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -3;
+            transform: translateZ(0);
+            transition: left 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        #view2 {
+            background-color: blue;
+            color: white;
+        }
+
+        #view3 {
+            background-color: green;
+            color: white;
+            height: 70vh;
+            bottom: 0;
+            top: auto;
+        }
+
+        #view4 {
+            background-color: rgb(255, 179, 0);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background"></div>
+    <div id="base-home" class="base">
+        <h1>Home View</h1>
+        <p>This is the home base view.</p>
+        <button id="open-view1" data-view="view1">Show view 1</button>
+    </div>
+    <div id="base-search" class="base">
+        <h1>Search View</h1>
+        <p>This is the search base view.</p>
+    </div>
+    <div id="base-settings" class="base">
+        <h1>Settings View</h1>
+        <p>This is the settings base view.</p>
+    </div>
+
+    <!-- Bottom Navbar -->
+    <div class="navbar">
+        <button id="nav-home" data-base="base-home">Home</button>
+        <button id="nav-search" data-base="base-search">Search</button>
+        <button id="nav-settings" data-base="base-settings">Settings</button>
+    </div>
+
+    <div id="view1" class="view">
+        <h1>View 1</h1>
+        <button id="open-view2" data-view="view2">Open view 2 (from right)</button>
+        <br><br>
+        <button id="open-view3" data-view="view3">Open view 3 (from bottom)</button>
+        <br><br>
+        <button id="close-view1" data-view="view1">Hide view 1</button>
+    </div>
+
+    <div id="view2" class="view">
+        <h1>View 2</h1>
+        <p>This view was opened from view 1 (slides from right)</p>
+        <button id="open-view4" data-view="view4">Open view 4 (from right)</button>
+        <br><br>
+        <button id="close-view2" data-view="view2">Close view 2</button>
+    </div>
+
+    <div id="view3" class="view">
+        <h1>View 3</h1>
+        <p>This view was opened from view 1 (slides from bottom)</p>
+        <button id="close-view3" data-view="view3">Close view 3</button>
+    </div>
+
+    <div id="view4" class="view">
+        <h1>View 4</h1>
+        <p>This view was opened from view 2 (slides from right)</p>
+        <button id="close-view4" data-view="view4">Close view 4</button>
+    </div>
+
+    <script>
+        let viewStack = [];
+        let currentZIndex = 2; // Start above navbar
+        const viewAnimations = {};
+        let currentBase = 'base-home';
+
+        function openView(viewId, direction = 'right') {
+            const targetDiv = document.getElementById(viewId);
+            if (!targetDiv || viewStack.includes(viewId)) return;
+
+            viewAnimations[viewId] = direction;
+            targetDiv.style.transition = "none";
+            targetDiv.style.zIndex = currentZIndex++;
+
+            if (direction === 'bottom') {
+                targetDiv.style.bottom = "0";
+                targetDiv.style.top = "auto";
+                targetDiv.style.transform = "translateY(100%)";
+            } else {
+                targetDiv.style.left = "100%";
+                targetDiv.style.top = "0";
+            }
+
+            targetDiv.offsetHeight; // force reflow
+
+            if (direction === 'bottom') {
+                targetDiv.style.transition = "transform 0.3s ease-in-out";
+                targetDiv.style.transform = "translateY(0)";
+                setTimeout(() => {
+                    document.addEventListener('click', handleOutsideClick);
+                }, 300);
+            } else {
+                targetDiv.style.transition = "left 0.3s ease-in-out";
+                targetDiv.style.left = "0%";
+            }
+
+            viewStack.push(viewId);
+        }
+
+        function closeView(viewId) {
+            const targetDiv = document.getElementById(viewId);
+            if (!targetDiv || !viewStack.includes(viewId)) return;
+
+            const direction = viewAnimations[viewId] || 'right';
+
+            if (direction === 'bottom') {
+                targetDiv.style.transform = "translateY(100%)";
+                setTimeout(() => {
+                    targetDiv.style.zIndex = -3;
+                    targetDiv.style.transform = "translateY(0)";
+                    delete viewAnimations[viewId];
+                    viewStack = viewStack.filter(id => id !== viewId);
+                    if (viewStack.length === 0) currentZIndex = 2;
+                    const hasBottomView = viewStack.some(id => viewAnimations[id] === 'bottom');
+                    if (!hasBottomView) document.removeEventListener('click', handleOutsideClick);
+                }, 300);
+            } else {
+                targetDiv.style.left = "100%";
+                setTimeout(() => {
+                    targetDiv.style.zIndex = -3;
+                    targetDiv.style.left = "0%";
+                    delete viewAnimations[viewId];
+                    viewStack = viewStack.filter(id => id !== viewId);
+                    if (viewStack.length === 0) currentZIndex = 2;
+                }, 300);
+            }
+        }
+
+        function handleOutsideClick(event) {
+            viewStack.forEach(id => {
+                if (viewAnimations[id] === 'bottom') {
+                    const view = document.getElementById(id);
+                    if (!view.contains(event.target)) closeView(id);
+                }
+            });
+        }
+
+        function switchBaseView(baseId) {
+            if (baseId === currentBase) return;
+
+            const currentBaseDiv = document.getElementById(currentBase);
+            const newBaseDiv = document.getElementById(baseId);
+            const backgroundDiv = document.querySelector('.background');
+
+            currentBaseDiv.style.opacity = "0";
+            currentBaseDiv.style.zIndex = -1;
+            backgroundDiv.style.zIndex = -1; // Move background behind new base
+            setTimeout(() => {
+                newBaseDiv.style.opacity = "1";
+                newBaseDiv.style.zIndex = 0;
+                backgroundDiv.style.zIndex = -1; // Ensure background stays behind new base
+                currentBase = baseId;
+            }, 300);
+        }
+
+        // Event listeners
+        document.getElementById("open-view1").addEventListener("click", () => openView("view1", "right"));
+        document.getElementById("open-view2").addEventListener("click", () => openView("view2", "right"));
+        document.getElementById("open-view3").addEventListener("click", () => openView("view3", "bottom"));
+        document.getElementById("open-view4").addEventListener("click", () => openView("view4", "right"));
+
+        document.getElementById("close-view1").addEventListener("click", () => closeView("view1"));
+        document.getElementById("close-view2").addEventListener("click", () => closeView("view2"));
+        document.getElementById("close-view3").addEventListener("click", () => closeView("view3"));
+        document.getElementById("close-view4").addEventListener("click", () => closeView("view4"));
+
+        document.getElementById("nav-home").addEventListener("click", () => switchBaseView("base-home"));
+        document.getElementById("nav-search").addEventListener("click", () => switchBaseView("base-search"));
+        document.getElementById("nav-settings").addEventListener("click", () => switchBaseView("base-settings"));
+    </script>
+</body>
+
+</html>
