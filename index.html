@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
         .background {
             position: fixed;
             top: 0;
@@ -17,6 +21,7 @@
         }
 
         .base {
+            margin-top: 80px;
             background-color: white;
             position: fixed;
             top: 0;
@@ -38,7 +43,7 @@
 
         .navbar {
             position: fixed;
-            bottom: 0;
+            top: 0;
             left: 0;
             width: 100vw;
             height: 60px;
@@ -46,24 +51,7 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            border-top: 1px solid #ccc;
             z-index: 1;
-        }
-
-        /* Media query for desktop screens (e.g., 768px and above) */
-        @media (min-width: 768px) {
-            .navbar {
-                top: 0;
-                bottom: auto;
-                border-top: none;
-                border-bottom: 1px solid #ccc;
-            }
-
-            .base {
-                top: 60px;
-                height: calc(100vh - 60px);
-                padding-bottom: 0;
-            }
         }
 
         .navbar button {
@@ -103,15 +91,298 @@
             background-color: rgb(255, 179, 0);
             color: white;
         }
+
+        .cards-container {
+            max-width: 35rem;
+            margin: 0 auto;
+            padding-inline: .75rem;
+        }
+
+        .card {
+            background: white;
+            overflow: hidden;
+            margin-bottom: 1.75rem;
+            display: flex;
+            height: 9.35rem;
+        }
+
+        .card-image {
+            width: 8.75rem;
+            object-fit: cover;
+            object-position: bottom;
+            flex-shrink: 0;
+            border-radius: 1rem;
+        }
+
+        .card-content {
+            padding: 0rem .75rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 4px;
+        }
+
+        .card-title-section {
+            display: flex;
+            align-items: baseline;
+            width: 100%;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #212121;
+            margin: 0;
+        }
+
+        .card-space-size {
+            font-size: 16px;
+            color: #000;
+            font-weight: 500;
+            margin-left: auto;
+        }
+
+        .card-location {
+            font-size: 18px;
+            color: #4B4B4B;
+            font-weight: 500;
+            margin: 0 0 1rem 0;
+        }
+
+        .card-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .star-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .rating-number {
+            font-size: 16px;
+            color: #4B4B4B;
+            font-weight: 500;
+        }
+
+        .duration {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 16px;
+            color: #4B4B4B;
+            font-weight: 500;
+        }
+
+        .calendar-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .card-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: end
+        }
+
+        .discount-badge {
+            background: #E8F5E8;
+            color: #2D5A2D;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .price-section {
+            text-align: right;
+        }
+
+        .price {
+            font-size: 28px;
+            font-weight: bold;
+            color: #000;
+            margin: 0;
+        }
+
+        .price-period {
+            font-size: 12px;
+            color: #A5A5A5;
+            margin: 0;
+            font-weight: 500;
+        }
     </style>
 </head>
 
 <body>
     <div class="background"></div>
     <div id="base-home" class="base">
-        <h1>Home View</h1>
-        <p>This is the home base view.</p>
         <button id="open-view1" data-view="view1">Show view 1</button>
+
+        <div class="cards-container">
+            <div class="card">
+                <img src="https://images.pexels.com/photos/3612412/pexels-photo-3612412.jpeg" alt="Storage shed"
+                    class="card-image">
+
+                <div class="card-content">
+                    <div>
+                        <div class="card-header">
+                            <div class="card-title-section">
+                                <span class="card-title">Storage shed</span>
+                                <span class="card-space-size">10×22</span>
+                            </div>
+                        </div>
+
+                        <p class="card-location">Helsinki, Uusimaa</p>
+
+                        <div class="card-info">
+                            <div class="rating">
+                                <svg class="star-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M7.091 1.40749C7.427 0.599744 8.573 0.599744 8.909 1.40749L10.4705 5.16199L14.5235 5.48749C15.3965 5.55724 15.7505 6.64624 15.0853 7.21624L11.9975 9.86149L12.9403 13.8162C13.1435 14.6682 12.2173 15.341 11.4703 14.885L8 12.7655L4.52975 14.885C3.78275 15.341 2.8565 14.6675 3.05975 13.8162L4.0025 9.86149L0.914752 7.21624C0.249502 6.64624 0.603502 5.55724 1.4765 5.48749L5.5295 5.16199L7.091 1.40749Z"
+                                        fill="#F8C600" />
+                                </svg>
+                                <span class="rating-number">4.9</span>
+                            </div>
+
+                            <div class="duration">
+                                <svg class="calendar-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M4.0625 0.6875C4.21168 0.6875 4.35476 0.746763 4.46025 0.852252C4.56574 0.957742 4.625 1.10082 4.625 1.25V2.375H11.375V1.25C11.375 1.10082 11.4343 0.957742 11.5398 0.852252C11.6452 0.746763 11.7883 0.6875 11.9375 0.6875C12.0867 0.6875 12.2298 0.746763 12.3352 0.852252C12.4407 0.957742 12.5 1.10082 12.5 1.25V2.375H13.0625C13.6592 2.375 14.2315 2.61205 14.6535 3.03401C15.0754 3.45597 15.3125 4.02826 15.3125 4.625V13.0625C15.3125 13.6592 15.0754 14.2315 14.6535 14.6535C14.2315 15.0754 13.6592 15.3125 13.0625 15.3125H2.9375C2.34076 15.3125 1.76847 15.0754 1.34651 14.6535C0.924553 14.2315 0.6875 13.6592 0.6875 13.0625V4.625C0.6875 4.02826 0.924553 3.45597 1.34651 3.03401C1.76847 2.61205 2.34076 2.375 2.9375 2.375H3.5V1.25C3.5 1.10082 3.55926 0.957742 3.66475 0.852252C3.77024 0.746763 3.91332 0.6875 4.0625 0.6875ZM14.1875 7.4375C14.1875 7.13913 14.069 6.85298 13.858 6.642C13.647 6.43103 13.3609 6.3125 13.0625 6.3125H2.9375C2.63913 6.3125 2.35298 6.43103 2.142 6.642C1.93103 6.85298 1.8125 7.13913 1.8125 7.4375V13.0625C1.8125 13.3609 1.93103 13.647 2.142 13.858C2.35298 14.069 2.63913 14.1875 2.9375 14.1875H13.0625C13.3609 14.1875 13.647 14.069 13.858 13.858C14.069 13.647 14.1875 13.3609 14.1875 13.0625V7.4375Z"
+                                        fill="black" />
+                                </svg>
+                                <span>12 months rented</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-bottom">
+                        <div class="discount-badge">50% off first month</div>
+
+                        <div class="price-section">
+                            <p class="price">€32</p>
+                            <p class="price-period">per month</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cards-container">
+            <div class="card">
+                <img src="https://images.pexels.com/photos/3612412/pexels-photo-3612412.jpeg" alt="Storage shed"
+                    class="card-image">
+
+                <div class="card-content">
+                    <div>
+                        <div class="card-header">
+                            <div class="card-title-section">
+                                <span class="card-title">Storage shed</span>
+                                <span class="card-space-size">10×22</span>
+                            </div>
+                        </div>
+
+                        <p class="card-location">Helsinki, Uusimaa</p>
+
+                        <div class="card-info">
+                            <div class="rating">
+                                <svg class="star-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M7.091 1.40749C7.427 0.599744 8.573 0.599744 8.909 1.40749L10.4705 5.16199L14.5235 5.48749C15.3965 5.55724 15.7505 6.64624 15.0853 7.21624L11.9975 9.86149L12.9403 13.8162C13.1435 14.6682 12.2173 15.341 11.4703 14.885L8 12.7655L4.52975 14.885C3.78275 15.341 2.8565 14.6675 3.05975 13.8162L4.0025 9.86149L0.914752 7.21624C0.249502 6.64624 0.603502 5.55724 1.4765 5.48749L5.5295 5.16199L7.091 1.40749Z"
+                                        fill="#F8C600" />
+                                </svg>
+                                <span class="rating-number">4.9</span>
+                            </div>
+
+                            <div class="duration">
+                                <svg class="calendar-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M4.0625 0.6875C4.21168 0.6875 4.35476 0.746763 4.46025 0.852252C4.56574 0.957742 4.625 1.10082 4.625 1.25V2.375H11.375V1.25C11.375 1.10082 11.4343 0.957742 11.5398 0.852252C11.6452 0.746763 11.7883 0.6875 11.9375 0.6875C12.0867 0.6875 12.2298 0.746763 12.3352 0.852252C12.4407 0.957742 12.5 1.10082 12.5 1.25V2.375H13.0625C13.6592 2.375 14.2315 2.61205 14.6535 3.03401C15.0754 3.45597 15.3125 4.02826 15.3125 4.625V13.0625C15.3125 13.6592 15.0754 14.2315 14.6535 14.6535C14.2315 15.0754 13.6592 15.3125 13.0625 15.3125H2.9375C2.34076 15.3125 1.76847 15.0754 1.34651 14.6535C0.924553 14.2315 0.6875 13.6592 0.6875 13.0625V4.625C0.6875 4.02826 0.924553 3.45597 1.34651 3.03401C1.76847 2.61205 2.34076 2.375 2.9375 2.375H3.5V1.25C3.5 1.10082 3.55926 0.957742 3.66475 0.852252C3.77024 0.746763 3.91332 0.6875 4.0625 0.6875ZM14.1875 7.4375C14.1875 7.13913 14.069 6.85298 13.858 6.642C13.647 6.43103 13.3609 6.3125 13.0625 6.3125H2.9375C2.63913 6.3125 2.35298 6.43103 2.142 6.642C1.93103 6.85298 1.8125 7.13913 1.8125 7.4375V13.0625C1.8125 13.3609 1.93103 13.647 2.142 13.858C2.35298 14.069 2.63913 14.1875 2.9375 14.1875H13.0625C13.3609 14.1875 13.647 14.069 13.858 13.858C14.069 13.647 14.1875 13.3609 14.1875 13.0625V7.4375Z"
+                                        fill="black" />
+                                </svg>
+                                <span>12 months rented</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-bottom">
+                        <div class="discount-badge">50% off first month</div>
+
+                        <div class="price-section">
+                            <p class="price">€32</p>
+                            <p class="price-period">per month</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cards-container">
+            <div class="card">
+                <img src="https://images.pexels.com/photos/3612412/pexels-photo-3612412.jpeg" alt="Storage shed"
+                    class="card-image">
+
+                <div class="card-content">
+                    <div>
+                        <div class="card-header">
+                            <div class="card-title-section">
+                                <span class="card-title">Storage shed</span>
+                                <span class="card-space-size">10×22</span>
+                            </div>
+                        </div>
+
+                        <p class="card-location">Helsinki, Uusimaa</p>
+
+                        <div class="card-info">
+                            <div class="rating">
+                                <svg class="star-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M7.091 1.40749C7.427 0.599744 8.573 0.599744 8.909 1.40749L10.4705 5.16199L14.5235 5.48749C15.3965 5.55724 15.7505 6.64624 15.0853 7.21624L11.9975 9.86149L12.9403 13.8162C13.1435 14.6682 12.2173 15.341 11.4703 14.885L8 12.7655L4.52975 14.885C3.78275 15.341 2.8565 14.6675 3.05975 13.8162L4.0025 9.86149L0.914752 7.21624C0.249502 6.64624 0.603502 5.55724 1.4765 5.48749L5.5295 5.16199L7.091 1.40749Z"
+                                        fill="#F8C600" />
+                                </svg>
+                                <span class="rating-number">4.9</span>
+                            </div>
+
+                            <div class="duration">
+                                <svg class="calendar-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M4.0625 0.6875C4.21168 0.6875 4.35476 0.746763 4.46025 0.852252C4.56574 0.957742 4.625 1.10082 4.625 1.25V2.375H11.375V1.25C11.375 1.10082 11.4343 0.957742 11.5398 0.852252C11.6452 0.746763 11.7883 0.6875 11.9375 0.6875C12.0867 0.6875 12.2298 0.746763 12.3352 0.852252C12.4407 0.957742 12.5 1.10082 12.5 1.25V2.375H13.0625C13.6592 2.375 14.2315 2.61205 14.6535 3.03401C15.0754 3.45597 15.3125 4.02826 15.3125 4.625V13.0625C15.3125 13.6592 15.0754 14.2315 14.6535 14.6535C14.2315 15.0754 13.6592 15.3125 13.0625 15.3125H2.9375C2.34076 15.3125 1.76847 15.0754 1.34651 14.6535C0.924553 14.2315 0.6875 13.6592 0.6875 13.0625V4.625C0.6875 4.02826 0.924553 3.45597 1.34651 3.03401C1.76847 2.61205 2.34076 2.375 2.9375 2.375H3.5V1.25C3.5 1.10082 3.55926 0.957742 3.66475 0.852252C3.77024 0.746763 3.91332 0.6875 4.0625 0.6875ZM14.1875 7.4375C14.1875 7.13913 14.069 6.85298 13.858 6.642C13.647 6.43103 13.3609 6.3125 13.0625 6.3125H2.9375C2.63913 6.3125 2.35298 6.43103 2.142 6.642C1.93103 6.85298 1.8125 7.13913 1.8125 7.4375V13.0625C1.8125 13.3609 1.93103 13.647 2.142 13.858C2.35298 14.069 2.63913 14.1875 2.9375 14.1875H13.0625C13.3609 14.1875 13.647 14.069 13.858 13.858C14.069 13.647 14.1875 13.3609 14.1875 13.0625V7.4375Z"
+                                        fill="black" />
+                                </svg>
+                                <span>12 months rented</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-bottom">
+                        <div class="discount-badge">50% off first month</div>
+
+                        <div class="price-section">
+                            <p class="price">€32</p>
+                            <p class="price-period">per month</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div id="base-search" class="base">
         <h1>Search View</h1>
