@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
@@ -62,9 +67,9 @@
         }
 
         .view {
-            padding: 2rem;
+            /* padding: 2rem; */
             position: fixed;
-            background-color: red;
+            background-color: white;
             top: 0;
             left: 0;
             width: 100vw;
@@ -115,7 +120,7 @@
         }
 
         .card-content {
-            padding: 0 0 0 .75rem;
+            padding: 0 .5rem 0 .75rem;
             flex: 1;
             display: flex;
             flex-direction: column;
@@ -225,6 +230,137 @@
             margin: 0;
             font-weight: 500;
         }
+
+        .text-input {
+            position: relative;
+            width: 100%;
+            max-width: 370px;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .text-input input {
+            width: 100%;
+            height: 3.25rem;
+            padding: 1.25rem 3rem 0.5rem 1rem;
+            background-color: #e8e8ed;
+            color: #000;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            outline: none;
+            caret-color: #007aff;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .text-input input::placeholder {
+            color: transparent;
+        }
+
+        .text-input input:focus {
+            background-color: #e0e0e5;
+        }
+
+        .text-input input:focus+label,
+        .text-input input:not(:placeholder-shown)+label {
+            top: 0.5rem;
+            font-size: 0.75rem;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .text-input label {
+            position: absolute;
+            left: 1rem;
+            top: 1.125rem;
+            color: #666;
+            font-size: 16px;
+            pointer-events: none;
+            transition: all 0.2s ease;
+            font-weight: 400;
+        }
+
+        .text-input .clear-button {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            visibility: hidden;
+            width: 26px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: transparent;
+        }
+
+        .text-input .clear-button:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .text-input .clear-button svg {
+            width: 26px;
+            height: 26px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 0 0 2rem 0;
+            color: #000;
+        }
+
+        .continue-button {
+            width: 100%;
+            height: 3.25rem;
+            background-color: #007aff;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            font-family: inherit;
+        }
+
+        .continue-button:hover {
+            background-color: #0056cc;
+        }
+
+        .continue-button:active {
+            background-color: #004bb5;
+        }
+
+        .circle-button {
+            position: relative;
+            width: 52px;
+            height: 52px;
+            background-color: #F0F6FF;
+            color: #0062FF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+        }
+
+        .circle-button svg {
+            display: block;
+        }
     </style>
 </head>
 
@@ -233,106 +369,6 @@
     <div id="base-home" class="base">
         <button id="open-view1" data-view="view1">Show view 1</button>
 
-        <div class="cards-container">
-            <div class="card">
-                <img src="https://images.pexels.com/photos/3612412/pexels-photo-3612412.jpeg" alt="Storage shed"
-                    class="card-image">
-
-                <div class="card-content">
-                    <div>
-                        <div class="card-header">
-                            <div class="card-title-section">
-                                <span class="card-title">Storage shed</span>
-                                <span class="card-space-size">10×22</span>
-                            </div>
-                        </div>
-
-                        <p class="card-location">Helsinki, Uusimaa</p>
-
-                        <div class="card-info">
-                            <div class="rating">
-                                <svg class="star-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M7.091 1.40749C7.427 0.599744 8.573 0.599744 8.909 1.40749L10.4705 5.16199L14.5235 5.48749C15.3965 5.55724 15.7505 6.64624 15.0853 7.21624L11.9975 9.86149L12.9403 13.8162C13.1435 14.6682 12.2173 15.341 11.4703 14.885L8 12.7655L4.52975 14.885C3.78275 15.341 2.8565 14.6675 3.05975 13.8162L4.0025 9.86149L0.914752 7.21624C0.249502 6.64624 0.603502 5.55724 1.4765 5.48749L5.5295 5.16199L7.091 1.40749Z"
-                                        fill="#F8C600" />
-                                </svg>
-                                <span class="rating-number">4.9</span>
-                            </div>
-
-                            <div class="duration">
-                                <svg class="calendar-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M4.0625 0.6875C4.21168 0.6875 4.35476 0.746763 4.46025 0.852252C4.56574 0.957742 4.625 1.10082 4.625 1.25V2.375H11.375V1.25C11.375 1.10082 11.4343 0.957742 11.5398 0.852252C11.6452 0.746763 11.7883 0.6875 11.9375 0.6875C12.0867 0.6875 12.2298 0.746763 12.3352 0.852252C12.4407 0.957742 12.5 1.10082 12.5 1.25V2.375H13.0625C13.6592 2.375 14.2315 2.61205 14.6535 3.03401C15.0754 3.45597 15.3125 4.02826 15.3125 4.625V13.0625C15.3125 13.6592 15.0754 14.2315 14.6535 14.6535C14.2315 15.0754 13.6592 15.3125 13.0625 15.3125H2.9375C2.34076 15.3125 1.76847 15.0754 1.34651 14.6535C0.924553 14.2315 0.6875 13.6592 0.6875 13.0625V4.625C0.6875 4.02826 0.924553 3.45597 1.34651 3.03401C1.76847 2.61205 2.34076 2.375 2.9375 2.375H3.5V1.25C3.5 1.10082 3.55926 0.957742 3.66475 0.852252C3.77024 0.746763 3.91332 0.6875 4.0625 0.6875ZM14.1875 7.4375C14.1875 7.13913 14.069 6.85298 13.858 6.642C13.647 6.43103 13.3609 6.3125 13.0625 6.3125H2.9375C2.63913 6.3125 2.35298 6.43103 2.142 6.642C1.93103 6.85298 1.8125 7.13913 1.8125 7.4375V13.0625C1.8125 13.3609 1.93103 13.647 2.142 13.858C2.35298 14.069 2.63913 14.1875 2.9375 14.1875H13.0625C13.3609 14.1875 13.647 14.069 13.858 13.858C14.069 13.647 14.1875 13.3609 14.1875 13.0625V7.4375Z"
-                                        fill="black" />
-                                </svg>
-                                <span>12 months rented</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card-bottom">
-                        <div class="discount-badge">50% off first month</div>
-
-                        <div class="price-section">
-                            <p class="price">€32</p>
-                            <p class="price-period">per month</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="cards-container">
-            <div class="card">
-                <img src="https://images.pexels.com/photos/3612412/pexels-photo-3612412.jpeg" alt="Storage shed"
-                    class="card-image">
-
-                <div class="card-content">
-                    <div>
-                        <div class="card-header">
-                            <div class="card-title-section">
-                                <span class="card-title">Storage shed</span>
-                                <span class="card-space-size">10×22</span>
-                            </div>
-                        </div>
-
-                        <p class="card-location">Helsinki, Uusimaa</p>
-
-                        <div class="card-info">
-                            <div class="rating">
-                                <svg class="star-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M7.091 1.40749C7.427 0.599744 8.573 0.599744 8.909 1.40749L10.4705 5.16199L14.5235 5.48749C15.3965 5.55724 15.7505 6.64624 15.0853 7.21624L11.9975 9.86149L12.9403 13.8162C13.1435 14.6682 12.2173 15.341 11.4703 14.885L8 12.7655L4.52975 14.885C3.78275 15.341 2.8565 14.6675 3.05975 13.8162L4.0025 9.86149L0.914752 7.21624C0.249502 6.64624 0.603502 5.55724 1.4765 5.48749L5.5295 5.16199L7.091 1.40749Z"
-                                        fill="#F8C600" />
-                                </svg>
-                                <span class="rating-number">4.9</span>
-                            </div>
-
-                            <div class="duration">
-                                <svg class="calendar-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M4.0625 0.6875C4.21168 0.6875 4.35476 0.746763 4.46025 0.852252C4.56574 0.957742 4.625 1.10082 4.625 1.25V2.375H11.375V1.25C11.375 1.10082 11.4343 0.957742 11.5398 0.852252C11.6452 0.746763 11.7883 0.6875 11.9375 0.6875C12.0867 0.6875 12.2298 0.746763 12.3352 0.852252C12.4407 0.957742 12.5 1.10082 12.5 1.25V2.375H13.0625C13.6592 2.375 14.2315 2.61205 14.6535 3.03401C15.0754 3.45597 15.3125 4.02826 15.3125 4.625V13.0625C15.3125 13.6592 15.0754 14.2315 14.6535 14.6535C14.2315 15.0754 13.6592 15.3125 13.0625 15.3125H2.9375C2.34076 15.3125 1.76847 15.0754 1.34651 14.6535C0.924553 14.2315 0.6875 13.6592 0.6875 13.0625V4.625C0.6875 4.02826 0.924553 3.45597 1.34651 3.03401C1.76847 2.61205 2.34076 2.375 2.9375 2.375H3.5V1.25C3.5 1.10082 3.55926 0.957742 3.66475 0.852252C3.77024 0.746763 3.91332 0.6875 4.0625 0.6875ZM14.1875 7.4375C14.1875 7.13913 14.069 6.85298 13.858 6.642C13.647 6.43103 13.3609 6.3125 13.0625 6.3125H2.9375C2.63913 6.3125 2.35298 6.43103 2.142 6.642C1.93103 6.85298 1.8125 7.13913 1.8125 7.4375V13.0625C1.8125 13.3609 1.93103 13.647 2.142 13.858C2.35298 14.069 2.63913 14.1875 2.9375 14.1875H13.0625C13.3609 14.1875 13.647 14.069 13.858 13.858C14.069 13.647 14.1875 13.3609 14.1875 13.0625V7.4375Z"
-                                        fill="black" />
-                                </svg>
-                                <span>12 months rented</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card-bottom">
-                        <div class="discount-badge">50% off first month</div>
-
-                        <div class="price-section">
-                            <p class="price">€32</p>
-                            <p class="price-period">per month</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="cards-container">
             <div class="card">
                 <img src="https://images.pexels.com/photos/3612412/pexels-photo-3612412.jpeg" alt="Storage shed"
@@ -401,12 +437,77 @@
     </div>
 
     <div id="view1" class="view">
-        <h1>View 1</h1>
+        <div class="navbar">
+            <button id="close-view1" data-view="view1">
+                <span class="circle-button">
+                    <svg width="13" height="19" viewBox="1 0 11 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.5 17L2 9.5L9.5 2" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </span>
+            </button>
+        </div>
+
+        <h1>Sign in</h1>
+
+        <div class="text-input">
+            <input id="email" type="email" placeholder=" " value="">
+            <label for="email">Email</label>
+            <div class="clear-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M13 0C5.82 0 0 5.82 0 13C0 20.18 5.82 26 13 26C20.18 26 26 20.18 26 13C26 5.82 20.18 0 13 0ZM10.7067 9.29333C10.6151 9.19508 10.5047 9.11628 10.3821 9.06163C10.2594 9.00697 10.127 8.97758 9.9927 8.97521C9.85843 8.97284 9.72505 8.99754 9.60054 9.04784C9.47602 9.09813 9.36291 9.17299 9.26795 9.26795C9.17299 9.36291 9.09813 9.47602 9.04784 9.60054C8.99754 9.72505 8.97284 9.85843 8.97521 9.9927C8.97758 10.127 9.00697 10.2594 9.06163 10.3821C9.11628 10.5047 9.19508 10.6151 9.29333 10.7067L11.5867 13L9.29333 15.2933C9.19508 15.3849 9.11628 15.4953 9.06163 15.6179C9.00697 15.7406 8.97758 15.873 8.97521 16.0073C8.97284 16.1416 8.99754 16.2749 9.04784 16.3995C9.09813 16.524 9.17299 16.6371 9.26795 16.7321C9.36291 16.827 9.47602 16.9019 9.60054 16.9522C9.72505 17.0025 9.85843 17.0272 9.9927 17.0248C10.127 17.0224 10.2594 16.993 10.3821 16.9384C10.5047 16.8837 10.6151 16.8049 10.7067 16.7067L13 14.4133L15.2933 16.7067C15.3849 16.8049 15.4953 16.8837 15.6179 16.9384C15.7406 16.993 15.873 17.0224 16.0073 17.0248C16.1416 17.0272 16.2749 17.0025 16.3995 16.9522C16.524 16.9019 16.6371 16.827 16.7321 16.7321C16.827 16.6371 16.9019 16.524 16.9522 16.3995C17.0025 16.2749 17.0272 16.1416 17.0248 16.0073C17.0224 15.873 16.993 15.7406 16.9384 15.6179C16.8837 15.4953 16.8049 15.3849 16.7067 15.2933L14.4133 13L16.7067 10.7067C16.8049 10.6151 16.8837 10.5047 16.9384 10.3821C16.993 10.2594 17.0224 10.127 17.0248 9.9927C17.0272 9.85843 17.0025 9.72505 16.9522 9.60054C16.9019 9.47602 16.827 9.36291 16.7321 9.26795C16.6371 9.17299 16.524 9.09813 16.3995 9.04784C16.2749 8.99754 16.1416 8.97284 16.0073 8.97521C15.873 8.97758 15.7406 9.00697 15.6179 9.06163C15.4953 9.11628 15.3849 9.19508 15.2933 9.29333L13 11.5867L10.7067 9.29333Z"
+                        fill="#505062" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="text-input">
+            <input id="password" type="password" placeholder=" ">
+            <label for="password">Password</label>
+            <div class="clear-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M13 0C5.82 0 0 5.82 0 13C0 20.18 5.82 26 13 26C20.18 26 26 20.18 26 13C26 5.82 20.18 0 13 0ZM10.7067 9.29333C10.6151 9.19508 10.5047 9.11628 10.3821 9.06163C10.2594 9.00697 10.127 8.97758 9.9927 8.97521C9.85843 8.97284 9.72505 8.99754 9.60054 9.04784C9.47602 9.09813 9.36291 9.17299 9.26795 9.26795C9.17299 9.36291 9.09813 9.47602 9.04784 9.60054C8.99754 9.72505 8.97284 9.85843 8.97521 9.9927C8.97758 10.127 9.00697 10.2594 9.06163 10.3821C9.11628 10.5047 9.19508 10.6151 9.29333 10.7067L11.5867 13L9.29333 15.2933C9.19508 15.3849 9.11628 15.4953 9.06163 15.6179C9.00697 15.7406 8.97758 15.873 8.97521 16.0073C8.97284 16.1416 8.99754 16.2749 9.04784 16.3995C9.09813 16.524 9.17299 16.6371 9.26795 16.7321C9.36291 16.827 9.47602 16.9019 9.60054 16.9522C9.72505 17.0025 9.85843 17.0272 9.9927 17.0248C10.127 17.0224 10.2594 16.993 10.3821 16.9384C10.5047 16.8837 10.6151 16.8049 10.7067 16.7067L13 14.4133L15.2933 16.7067C15.3849 16.8049 15.4953 16.8837 15.6179 16.9384C15.7406 16.993 15.873 17.0224 16.0073 17.0248C16.1416 17.0272 16.2749 17.0025 16.3995 16.9522C16.524 16.9019 16.6371 16.827 16.7321 16.7321C16.827 16.6371 16.9019 16.524 16.9522 16.3995C17.0025 16.2749 17.0272 16.1416 17.0248 16.0073C17.0224 15.873 16.993 15.7406 16.9384 15.6179C16.8837 15.4953 16.8049 15.3849 16.7067 15.2933L14.4133 13L16.7067 10.7067C16.8049 10.6151 16.8837 10.5047 16.9384 10.3821C16.993 10.2594 17.0224 10.127 17.0248 9.9927C17.0272 9.85843 17.0025 9.72505 16.9522 9.60054C16.9019 9.47602 16.827 9.36291 16.7321 9.26795C16.6371 9.17299 16.524 9.09813 16.3995 9.04784C16.2749 8.99754 16.1416 8.97284 16.0073 8.97521C15.873 8.97758 15.7406 9.00697 15.6179 9.06163C15.4953 9.11628 15.3849 9.19508 15.2933 9.29333L13 11.5867L10.7067 9.29333Z"
+                        fill="#505062" />
+                </svg>
+            </div>
+        </div>
+
+        <button class="continue-button">Continue</button>
+
+        <script>
+            function textInputSetup(element) {
+                const input = element.querySelector("input");
+                const clearButton = element.querySelector(".clear-button");
+
+                function updateClearButton() {
+                    clearButton.style.visibility = input.value ? "visible" : "hidden";
+                }
+
+                input.addEventListener("input", updateClearButton);
+                input.addEventListener("focus", updateClearButton);
+                input.addEventListener("blur", updateClearButton);
+
+                clearButton.addEventListener("click", () => {
+                    input.value = "";
+                    clearButton.style.visibility = "hidden";
+                    input.focus();
+                });
+
+                updateClearButton();
+            }
+
+            const textInputs = document.querySelectorAll(".text-input");
+            textInputs.forEach(textInputSetup);
+        </script>
+
         <button id="open-view2" data-view="view2">Open view 2 (from right)</button>
         <br><br>
         <button id="open-view3" data-view="view3">Open view 3 (from bottom)</button>
         <br><br>
         <button id="close-view1" data-view="view1">Hide view 1</button>
+
     </div>
 
     <div id="view2" class="view">
