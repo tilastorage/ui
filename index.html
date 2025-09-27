@@ -38,12 +38,136 @@
             padding-bottom: 60px;
             box-sizing: border-box;
             opacity: 0;
-            transition: opacity 0.3s ease-in-out;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
         }
 
         #base-home {
             z-index: 0;
             opacity: 1;
+        }
+
+        /* Top header with hamburger and other icons */
+        .top-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 80px;
+            background-color: #F5F7FA;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+            z-index: 10;
+            transition: transform 0.3s ease-in-out;
+            box-sizing: border-box;
+        }
+
+        .hamburger-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 12px;
+            background-color: #E8F2FF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .right-icons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .icon-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 12px;
+            background-color: #E8F2FF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Sliding menu panel */
+        .menu-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 75vw;
+            height: 100vh;
+            background-color: white;
+            z-index: 20;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 2rem 1.5rem;
+            box-sizing: border-box;
+        }
+
+        .menu-panel.open {
+            transform: translateX(0);
+        }
+
+        .menu-item {
+            display: block;
+            padding: 1.5rem 0;
+            font-size: 1.2rem;
+            color: #333;
+            text-decoration: none;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-family: inherit;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        /* Content wrapper for sliding effect */
+        .content-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            transition: transform 0.3s ease-in-out;
+            z-index: 1;
+        }
+
+        .content-wrapper.shifted {
+            transform: translateX(75vw);
+        }
+
+        /* Menu overlay for closing */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 15;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+
+        .menu-overlay.visible {
+            opacity: 1;
+            visibility: visible;
         }
 
         .navbar {
@@ -366,74 +490,114 @@
 
 <body>
     <div class="background"></div>
-    <div id="base-home" class="base">
-        <button id="open-view1" data-view="view1">Show view 1</button>
 
-        <div class="cards-container">
-            <div class="card">
-                <img src="https://images.pexels.com/photos/3612412/pexels-photo-3612412.jpeg" alt="Storage shed"
-                    class="card-image">
+    <!-- Menu overlay for closing -->
+    <div class="menu-overlay" id="menuOverlay"></div>
 
-                <div class="card-content">
-                    <div>
-                        <div class="card-header">
-                            <div class="card-title-section">
-                                <span class="card-title">Storage shed</span>
-                                <span class="card-space-size">10×22</span>
+    <!-- Sliding menu panel -->
+    <div class="menu-panel" id="menuPanel">
+        <button class="menu-item" data-base="base-home">Home</button>
+        <button class="menu-item" data-base="base-search">Search</button>
+        <button class="menu-item" data-base="base-settings">Settings</button>
+    </div>
+
+    <!-- Content wrapper for sliding effect -->
+    <div class="content-wrapper" id="contentWrapper">
+        <!-- Top header with hamburger menu -->
+        <div class="top-header">
+            <button class="hamburger-button" id="hamburgerButton">
+                <svg width="24" height="13" viewBox="0 0 24 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 2H22M2 11H22" stroke="#0062FF" stroke-width="2.5" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </button>
+
+            <div class="right-icons">
+                <button class="icon-button">
+                    <svg width="22" height="26" viewBox="0 0 22 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M18.2144 25.5L18.2144 21.7661C20.3091 21.3107 21.8573 19.4893 21.8573 17.3036C21.8573 15.1179 20.3091 13.2964 18.2144 12.8411L18.2144 -1.59234e-07L16.393 -2.38851e-07L16.393 12.8411C14.2984 13.2964 12.7502 15.1179 12.7502 17.3036C12.7502 19.4893 14.2984 21.3107 16.393 21.7661L16.393 25.5L18.2144 25.5ZM14.5716 17.3036C14.5716 15.7554 15.7555 14.5714 17.3037 14.5714C18.8519 14.5714 20.0359 15.7554 20.0359 17.3036C20.0359 18.8518 18.8519 20.0357 17.3037 20.0357C15.7555 20.0357 14.5716 18.8518 14.5716 17.3036Z"
+                            fill="#0062FF" />
+                        <path
+                            d="M3.64301 -2.38852e-07L3.64301 3.73393C1.54837 4.18929 0.000157094 6.01071 0.000156998 8.19643C0.000156902 10.3821 1.54837 12.2036 3.64301 12.6589L3.64301 25.5L5.46444 25.5L5.46444 12.6589C7.55908 12.2036 9.1073 10.3821 9.1073 8.19643C9.1073 6.01071 7.55909 4.18929 5.46444 3.73393L5.46444 -1.59234e-07L3.64301 -2.38852e-07ZM7.28587 8.19643C7.28587 9.74464 6.10194 10.9286 4.55373 10.9286C3.00551 10.9286 1.82159 9.74464 1.82159 8.19643C1.82159 6.64821 3.00551 5.46429 4.55373 5.46429C6.10194 5.46429 7.28587 6.64821 7.28587 8.19643Z"
+                            fill="#0062FF" />
+                    </svg>
+                </button>
+
+                <button class="icon-button">
+                    <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M15.7433 15.7601L21.3333 21.3333M18.1111 10.0556C18.1111 14.5045 14.5045 18.1111 10.0556 18.1111C5.60659 18.1111 2 14.5045 2 10.0556C2 5.60659 5.60659 2 10.0556 2C14.5045 2 18.1111 5.60659 18.1111 10.0556Z"
+                            stroke="#0062FF" stroke-width="2.14815" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div id="base-home" class="base">
+            <button id="open-view1" data-view="view1">Show view 1</button>
+
+            <div class="cards-container">
+                <div class="card">
+                    <img src="https://images.pexels.com/photos/3612412/pexels-photo-3612412.jpeg" alt="Storage shed"
+                        class="card-image">
+
+                    <div class="card-content">
+                        <div>
+                            <div class="card-header">
+                                <div class="card-title-section">
+                                    <span class="card-title">Storage shed</span>
+                                    <span class="card-space-size">10×22</span>
+                                </div>
+                            </div>
+
+                            <p class="card-location">Helsinki, Uusimaa</p>
+
+                            <div class="card-info">
+                                <div class="rating">
+                                    <svg class="star-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M7.091 1.40749C7.427 0.599744 8.573 0.599744 8.909 1.40749L10.4705 5.16199L14.5235 5.48749C15.3965 5.55724 15.7505 6.64624 15.0853 7.21624L11.9975 9.86149L12.9403 13.8162C13.1435 14.6682 12.2173 15.341 11.4703 14.885L8 12.7655L4.52975 14.885C3.78275 15.341 2.8565 14.6675 3.05975 13.8162L4.0025 9.86149L0.914752 7.21624C0.249502 6.64624 0.603502 5.55724 1.4765 5.48749L5.5295 5.16199L7.091 1.40749Z"
+                                            fill="#F8C600" />
+                                    </svg>
+                                    <span class="rating-number">4.9</span>
+                                </div>
+
+                                <div class="duration">
+                                    <svg class="calendar-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M4.0625 0.6875C4.21168 0.6875 4.35476 0.746763 4.46025 0.852252C4.56574 0.957742 4.625 1.10082 4.625 1.25V2.375H11.375V1.25C11.375 1.10082 11.4343 0.957742 11.5398 0.852252C11.6452 0.746763 11.7883 0.6875 11.9375 0.6875C12.0867 0.6875 12.2298 0.746763 12.3352 0.852252C12.4407 0.957742 12.5 1.10082 12.5 1.25V2.375H13.0625C13.6592 2.375 14.2315 2.61205 14.6535 3.03401C15.0754 3.45597 15.3125 4.02826 15.3125 4.625V13.0625C15.3125 13.6592 15.0754 14.2315 14.6535 14.6535C14.2315 15.0754 13.6592 15.3125 13.0625 15.3125H2.9375C2.34076 15.3125 1.76847 15.0754 1.34651 14.6535C0.924553 14.2315 0.6875 13.6592 0.6875 13.0625V4.625C0.6875 4.02826 0.924553 3.45597 1.34651 3.03401C1.76847 2.61205 2.34076 2.375 2.9375 2.375H3.5V1.25C3.5 1.10082 3.55926 0.957742 3.66475 0.852252C3.77024 0.746763 3.91332 0.6875 4.0625 0.6875ZM14.1875 7.4375C14.1875 7.13913 14.069 6.85298 13.858 6.642C13.647 6.43103 13.3609 6.3125 13.0625 6.3125H2.9375C2.63913 6.3125 2.35298 6.43103 2.142 6.642C1.93103 6.85298 1.8125 7.13913 1.8125 7.4375V13.0625C1.8125 13.3609 1.93103 13.647 2.142 13.858C2.35298 14.069 2.63913 14.1875 2.9375 14.1875H13.0625C13.3609 14.1875 13.647 14.069 13.858 13.858C14.069 13.647 14.1875 13.3609 14.1875 13.0625V7.4375Z"
+                                            fill="black" />
+                                    </svg>
+                                    <span>12 months rented</span>
+                                </div>
                             </div>
                         </div>
 
-                        <p class="card-location">Helsinki, Uusimaa</p>
+                        <div class="card-bottom">
+                            <div class="discount-badge">50% off first month</div>
 
-                        <div class="card-info">
-                            <div class="rating">
-                                <svg class="star-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M7.091 1.40749C7.427 0.599744 8.573 0.599744 8.909 1.40749L10.4705 5.16199L14.5235 5.48749C15.3965 5.55724 15.7505 6.64624 15.0853 7.21624L11.9975 9.86149L12.9403 13.8162C13.1435 14.6682 12.2173 15.341 11.4703 14.885L8 12.7655L4.52975 14.885C3.78275 15.341 2.8565 14.6675 3.05975 13.8162L4.0025 9.86149L0.914752 7.21624C0.249502 6.64624 0.603502 5.55724 1.4765 5.48749L5.5295 5.16199L7.091 1.40749Z"
-                                        fill="#F8C600" />
-                                </svg>
-                                <span class="rating-number">4.9</span>
+                            <div class="price-section">
+                                <p class="price">€32</p>
+                                <p class="price-period">per month</p>
                             </div>
-
-                            <div class="duration">
-                                <svg class="calendar-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M4.0625 0.6875C4.21168 0.6875 4.35476 0.746763 4.46025 0.852252C4.56574 0.957742 4.625 1.10082 4.625 1.25V2.375H11.375V1.25C11.375 1.10082 11.4343 0.957742 11.5398 0.852252C11.6452 0.746763 11.7883 0.6875 11.9375 0.6875C12.0867 0.6875 12.2298 0.746763 12.3352 0.852252C12.4407 0.957742 12.5 1.10082 12.5 1.25V2.375H13.0625C13.6592 2.375 14.2315 2.61205 14.6535 3.03401C15.0754 3.45597 15.3125 4.02826 15.3125 4.625V13.0625C15.3125 13.6592 15.0754 14.2315 14.6535 14.6535C14.2315 15.0754 13.6592 15.3125 13.0625 15.3125H2.9375C2.34076 15.3125 1.76847 15.0754 1.34651 14.6535C0.924553 14.2315 0.6875 13.6592 0.6875 13.0625V4.625C0.6875 4.02826 0.924553 3.45597 1.34651 3.03401C1.76847 2.61205 2.34076 2.375 2.9375 2.375H3.5V1.25C3.5 1.10082 3.55926 0.957742 3.66475 0.852252C3.77024 0.746763 3.91332 0.6875 4.0625 0.6875ZM14.1875 7.4375C14.1875 7.13913 14.069 6.85298 13.858 6.642C13.647 6.43103 13.3609 6.3125 13.0625 6.3125H2.9375C2.63913 6.3125 2.35298 6.43103 2.142 6.642C1.93103 6.85298 1.8125 7.13913 1.8125 7.4375V13.0625C1.8125 13.3609 1.93103 13.647 2.142 13.858C2.35298 14.069 2.63913 14.1875 2.9375 14.1875H13.0625C13.3609 14.1875 13.647 14.069 13.858 13.858C14.069 13.647 14.1875 13.3609 14.1875 13.0625V7.4375Z"
-                                        fill="black" />
-                                </svg>
-                                <span>12 months rented</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card-bottom">
-                        <div class="discount-badge">50% off first month</div>
-
-                        <div class="price-section">
-                            <p class="price">€32</p>
-                            <p class="price-period">per month</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div id="base-search" class="base">
-        <h1>Search View</h1>
-        <p>This is the search base view.</p>
-    </div>
-    <div id="base-settings" class="base">
-        <h1>Settings View</h1>
-        <p>This is the settings base view.</p>
-    </div>
 
-    <!-- Bottom Navbar -->
-    <div class="navbar">
-        <button id="nav-home" data-base="base-home">Home</button>
-        <button id="nav-search" data-base="base-search">Search</button>
-        <button id="nav-settings" data-base="base-settings">Settings</button>
+        <div id="base-search" class="base">
+            <h1>Search View</h1>
+            <p>This is the search base view.</p>
+        </div>
+
+        <div id="base-settings" class="base">
+            <h1>Settings View</h1>
+            <p>This is the settings base view.</p>
+        </div>
     </div>
 
     <div id="view1" class="view">
@@ -506,8 +670,6 @@
         <br><br>
         <button id="open-view3" data-view="view3">Open view 3 (from bottom)</button>
         <br><br>
-        <button id="close-view1" data-view="view1">Hide view 1</button>
-
     </div>
 
     <div id="view2" class="view">
@@ -535,6 +697,36 @@
         let currentZIndex = 2; // Start above navbar
         const viewAnimations = {};
         let currentBase = 'base-home';
+        let isMenuOpen = false;
+
+        // Hamburger menu functionality
+        function openMenu() {
+            if (isMenuOpen) return;
+
+            const menuPanel = document.getElementById('menuPanel');
+            const contentWrapper = document.getElementById('contentWrapper');
+            const menuOverlay = document.getElementById('menuOverlay');
+
+            menuPanel.classList.add('open');
+            contentWrapper.classList.add('shifted');
+            menuOverlay.classList.add('visible');
+
+            isMenuOpen = true;
+        }
+
+        function closeMenu() {
+            if (!isMenuOpen) return;
+
+            const menuPanel = document.getElementById('menuPanel');
+            const contentWrapper = document.getElementById('contentWrapper');
+            const menuOverlay = document.getElementById('menuOverlay');
+
+            menuPanel.classList.remove('open');
+            contentWrapper.classList.remove('shifted');
+            menuOverlay.classList.remove('visible');
+
+            isMenuOpen = false;
+        }
 
         function openView(viewId, direction = 'right') {
             const targetDiv = document.getElementById(viewId);
@@ -639,6 +831,21 @@
         document.getElementById("nav-home").addEventListener("click", () => switchBaseView("base-home"));
         document.getElementById("nav-search").addEventListener("click", () => switchBaseView("base-search"));
         document.getElementById("nav-settings").addEventListener("click", () => switchBaseView("base-settings"));
+
+        // Hamburger menu event listeners
+        document.getElementById('hamburgerButton').addEventListener('click', openMenu);
+        document.getElementById('menuOverlay').addEventListener('click', closeMenu);
+
+        // Menu item navigation
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                const baseId = e.target.getAttribute('data-base');
+                if (baseId) {
+                    switchBaseView(baseId);
+                    closeMenu();
+                }
+            });
+        });
     </script>
 </body>
 
